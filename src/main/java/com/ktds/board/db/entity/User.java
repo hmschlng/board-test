@@ -10,6 +10,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name="user")
 @Entity
 public class User extends BaseTimeEntity {
 
@@ -20,7 +21,7 @@ public class User extends BaseTimeEntity {
 
     @NotBlank(message = "필수 입력 항목입니다.")
     @Column(name = "email_id")
-    private String emailid;
+    private String email;
 
     @NotBlank(message = "필수 입력 항목입니다.")
     @Column(name = "name")
@@ -31,5 +32,7 @@ public class User extends BaseTimeEntity {
 
     @Column(name = "profile_img")
     private String profileImg;
+
+
 
 }
