@@ -1,12 +1,10 @@
-package com.ktds.board.db.repository;
+package com.ktds.board.board.db.repository;
 
-import java.util.List;
-import java.util.Optional;
-
+import com.ktds.board.board.db.entity.Article;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import com.ktds.board.db.entity.Article;
-
+@Repository
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 	//
 	// Optional<Article> getArticle(Long id);
