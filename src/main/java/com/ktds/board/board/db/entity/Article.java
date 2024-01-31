@@ -1,4 +1,4 @@
-package com.ktds.board.db.entity;
+package com.ktds.board.board.db.entity;
 
 import com.ktds.board.common.entity.ModifiedTimeEntity;
 import jakarta.persistence.*;

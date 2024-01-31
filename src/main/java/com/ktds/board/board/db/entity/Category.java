@@ -1,4 +1,4 @@
-package com.ktds.board.db.entity;
+package com.ktds.board.board.db.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

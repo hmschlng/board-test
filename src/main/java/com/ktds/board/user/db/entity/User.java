@@ -1,4 +1,4 @@
-package com.ktds.board.db.entity;
+package com.ktds.board.user.db.entity;
 
 import com.ktds.board.common.entity.BaseTimeEntity;
 import jakarta.persistence.*;
@@ -10,6 +10,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name="user")
 @Entity
 public class User extends BaseTimeEntity {
 
@@ -31,5 +32,7 @@ public class User extends BaseTimeEntity {
 
     @Column(name = "profile_img")
     private String profileImg;
+
+
 
 }
