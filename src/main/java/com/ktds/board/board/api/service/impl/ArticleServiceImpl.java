@@ -1,7 +1,7 @@
 package com.ktds.board.board.api.service.impl;
 
-import com.ktds.board.board.api.dto.request.GetArticleList;
-import com.ktds.board.board.api.dto.response.GetArticle;
+import com.ktds.board.board.api.dto.request.ArticleListGetReq;
+import com.ktds.board.board.api.dto.response.ArticleGetResp;
 import com.ktds.board.board.api.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public class ArticleServiceImpl implements ArticleService {
     @Override
-    public List<GetArticle> getArticleList(GetArticleList req) {
+    public List<ArticleGetResp> getAll(ArticleListGetReq req) {
         return null;
     }
 }
