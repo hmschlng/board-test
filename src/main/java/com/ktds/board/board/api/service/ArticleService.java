@@ -1,10 +1,20 @@
 package com.ktds.board.board.api.service;
 
 import com.ktds.board.board.api.dto.request.ArticleListGetReq;
+import com.ktds.board.board.api.dto.request.ArticlePostReq;
+import com.ktds.board.board.api.dto.request.ArticlePutReq;
 import com.ktds.board.board.api.dto.response.ArticleGetResp;
 
 import java.util.List;
 
 public interface ArticleService {
     List<ArticleGetResp> getAll(ArticleListGetReq req);
+
+    ArticleGetResp getOne(Long id);
+
+	Long saveOne(ArticlePostReq req);
+
+	Long updateOne(ArticlePutReq req);
+
+	Long deleteById(Long id);
 }
