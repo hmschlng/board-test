@@ -18,7 +18,7 @@ public class SwaggerConfig {
         Info info = new Info()
                 .version("v1.0.0")
                 .title("Key Board API")
-                .description("키보드 게시판 메인 API 설계서입니다")
+                .description("Key Board REST API 설계서입니다")
                 .termsOfService("http://swagger.io/terms/")
                 .contact(new Contact().name("이방환").url("https://cobby-play.com").email("soulb9@naver.com"))
                 .license(new License().name("Apache License Version 2.0").url("http://www.apache.org/licenses/LICENSE-2.0"));;
