@@ -3,7 +3,6 @@ package com.ktds.board.board.api.dto.request;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Positive;
-import lombok.Builder;
 
 public record ArticleListGetReq(
 	Integer pageNum,

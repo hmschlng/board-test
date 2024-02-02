@@ -3,7 +3,6 @@ package com.ktds.board.board.api.dto.request;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
-import lombok.Builder;
 
 public record ArticlePutReq(
 	@Schema(description = "수정할 게시글 Id", example = "1")

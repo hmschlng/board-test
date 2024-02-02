@@ -4,16 +4,15 @@ import java.time.LocalDateTime;
 
 import com.ktds.board.board.db.entity.Article;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
-@Builder
-@RequiredArgsConstructor
+
 @AllArgsConstructor
-@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class ArticleGetResp {
 	private Long articleId;
