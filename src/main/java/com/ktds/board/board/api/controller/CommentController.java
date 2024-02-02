@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ktds.board.board.api.dto.CommentListGetResp;
+import com.ktds.board.board.api.dto.request.CommentListGetResp;
 import com.ktds.board.board.api.dto.request.CommentPostReq;
 import com.ktds.board.board.api.dto.request.CommentPutReq;
 import com.ktds.board.board.api.service.CommentService;
