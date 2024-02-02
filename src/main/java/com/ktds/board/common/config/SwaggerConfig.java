@@ -21,7 +21,7 @@ public class SwaggerConfig {
                 .description("Key Board REST API 설계서입니다")
                 .termsOfService("http://swagger.io/terms/")
                 .contact(new Contact().name("이방환").url("https://cobby-play.com").email("soulb9@naver.com"))
-                .license(new License().name("Apache License Version 2.0").url("http://www.apache.org/licenses/LICENSE-2.0"));;
+                .license(new License().name("Apache License Version 2.0").url("http://www.apache.org/licenses/LICENSE-2.0"));
 
         String jwt = "Authorization";
         SecurityRequirement securityRequirement = new SecurityRequirement().addList(jwt); // 헤더에 토큰 포함
