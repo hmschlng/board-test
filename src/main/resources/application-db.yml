@@ -1,26 +1,18 @@
 spring:
-  # MariaDB
+  # MySQL
   datasource:
-    url: jdbc:mysql://localhost:3306/test
-    username: root
-    password: root
+    url: ENC(3kNnzrLc9rwKYEsSESJ5u7z765z+RzksxElX1lvmXkrjTvmRYk5SMW/5FxX8fRN2UlSJNJ7JBq4SLfBdtFDNcRValL+IRmWGVxdta6PbDck=)
+    username: ENC(yRLLXm4+PnvnKSw0EN4Yo+1CI2952xRP)
+    password: ENC(E5XNOWaCL+nnrZir1+bzP9xfoGfE/4+C)
     driver-class-name: com.mysql.cj.jdbc.Driver
   # JPA Properties
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
       naming:
         implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+    open-in-view: true
     show-sql: true
     properties:
       hibernate:
         format_sql: true
-
-  jackson:
-    serialization:
-      FAIL_ON_EMPTY_BEANS: false
-
-# okhttp request url to store-service
-#request:
-#  user: ENC(mVQN90HqIlOYcPRrrTyIc5F2we71Z2dC6SXlfUKVtPEkf9+U7d2TwA==)
-#  url:  ENC(6tWQjAFg4JB8CYgfEhkEGGS/31xfQZ8UMUm9WC70YgR0Q7NuTz8Q5UYgdKl7oxvDy+8Uk7Txf2to+ZCLClO1Eg==)
