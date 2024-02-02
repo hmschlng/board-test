@@ -1,22 +1,37 @@
 package com.ktds.board.board.api.dto.response;
 
-import lombok.*;
-
 import java.time.LocalDateTime;
 
+import com.ktds.board.board.db.entity.Article;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
-//@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Setter
 @Getter
 public class ArticleGetResp {
 	private Long articleId;
 	private Long userId;
+	private String userNickname;
 	private String title;
 	private String content;
 	private LocalDateTime createdAt;
 	private LocalDateTime modifiedAt;
 	private Long categoryId;
+
+	@Builder
+	public ArticleGetResp(Article article) {
+		this.articleId = article.getId();
+		this.userId = article.getUser().getId();
+		this.userNickname = article.getUser().getNickname();
+		this.title = article.getTitle();
+		this.content = article.getContent();
+		this.categoryId = article.getCategory().getId();
+	}
 }

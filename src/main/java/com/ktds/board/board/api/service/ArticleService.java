@@ -10,11 +10,11 @@ import java.util.List;
 public interface ArticleService {
     List<ArticleGetResp> getAll(ArticleListGetReq req);
 
-    ArticleGetResp getOne(Long id);
+    ArticleGetResp getOne(Long articleId);
 
 	Long saveOne(ArticlePostReq req);
 
 	Long updateOne(ArticlePutReq req);
 
-	Long deleteById(Long id);
+	Long deleteById(Long articleId);
 }

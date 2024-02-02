@@ -2,18 +2,9 @@ package com.ktds.board.board.api.controller;
 
 import java.net.URI;
 
-import com.ktds.board.board.api.dto.request.ArticleListGetReq;
-import com.ktds.board.board.api.dto.request.ArticlePostReq;
-import com.ktds.board.board.api.dto.request.ArticlePutReq;
-import com.ktds.board.board.api.dto.response.ArticleGetResp;
-import com.ktds.board.board.api.service.ArticleService;
-import com.ktds.board.common.entity.BaseResponseBody;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,14 +14,32 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ktds.board.board.api.dto.request.ArticleListGetReq;
+import com.ktds.board.board.api.dto.request.ArticlePostReq;
+import com.ktds.board.board.api.dto.request.ArticlePutReq;
+import com.ktds.board.board.api.service.ArticleService;
+import com.ktds.board.common.annotation.ApiDocumentResponse;
+import com.ktds.board.common.entity.BaseResponseBody;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+
+
+@Tag(name = "게시글 관리 API", description = "게시글을 조회, 추가, 수정, 삭제하는 API입니다.")
+@Validated
 @RequiredArgsConstructor
 @RequestMapping("/api/article")
 @RestController
 public class ArticleController {
+
     private final ArticleService articleService;
 
     // 게시글 전체조회
+    @ApiDocumentResponse
+    @Operation(summary = "getArticleList", description="게시글 전체 조회")
     @GetMapping
     public ResponseEntity<? extends BaseResponseBody> getArticleList(
             ArticleListGetReq req) {
@@ -42,6 +51,8 @@ public class ArticleController {
     }
 
     // 게시글 단건조회
+    @ApiDocumentResponse
+    @Operation(summary = "getArticle", description="게시글 단건 조회")
     @GetMapping("/{id}")
     public ResponseEntity<? extends BaseResponseBody> getArticle(
         @PathVariable Long id
@@ -53,7 +64,9 @@ public class ArticleController {
             .body(new BaseResponseBody<>(HttpStatus.OK, article));
     }
 
-    // 게시글 작설
+    // 게시글 작성
+    @ApiDocumentResponse
+    @Operation(summary = "createArticle", description="게시글 작성")
     @PostMapping
     public ResponseEntity<?extends BaseResponseBody> createArticle(
         @RequestBody @Valid ArticlePostReq req,
@@ -69,6 +82,8 @@ public class ArticleController {
     }
 
     // 게시글 수정
+    @ApiDocumentResponse
+    @Operation(summary = "updateArticle", description="게시글 수정")
     @PutMapping
     public ResponseEntity<? extends BaseResponseBody> updateArticle(
         @RequestBody @Valid ArticlePutReq req
@@ -82,6 +97,8 @@ public class ArticleController {
     }
 
     // 게시글 삭제
+    @ApiDocumentResponse
+    @Operation(summary = "deleteArticle", description="게시글 삭제")
     @DeleteMapping
     public ResponseEntity<? extends BaseResponseBody> deleteArticle(
         @PathVariable Long id
