@@ -4,6 +4,7 @@ import java.net.URI;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,19 +14,26 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ktds.board.board.api.dto.request.LikePostReq;
 import com.ktds.board.board.api.service.LikeService;
+import com.ktds.board.common.annotation.ApiDocumentResponse;
 import com.ktds.board.common.entity.BaseResponseBody;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+@Tag(name = "좋아요 관리 API", description = "댓글이나 게시글에 누르는 좋아요 기능과 관련된 API입니다.")
+@Validated
 @RequiredArgsConstructor
 @RequestMapping("/api/like")
 @RestController
 public class LikeController {
 	private LikeService likeService;
 
-	// 게시글이나 댓글에 좋아요를 누른 정보를 저장하기(생성)
+	// 게시글이나 댓글에 좋아요 누르기(생성)
+	@ApiDocumentResponse
+	@Operation(summary = "createLike", description="게시글이나 댓글에 좋아요 누르기(생성)")
 	@PostMapping
 	public ResponseEntity<? extends BaseResponseBody> createLike(
 		@RequestBody @Valid LikePostReq req,
@@ -43,6 +51,8 @@ public class LikeController {
 	}
 
 	// 누른 좋아요를 취소하기(삭제)
+	@ApiDocumentResponse
+	@Operation(summary = "deleteLike", description="누른 좋아요를 취소하기(삭제)")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<? extends BaseResponseBody> deleteLike(
 		@PathVariable Long id
