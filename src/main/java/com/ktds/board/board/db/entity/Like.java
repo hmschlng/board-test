@@ -2,9 +2,7 @@ package com.ktds.board.board.db.entity;
 
 import com.ktds.board.board.db.entity.enumtype.LikeContentType;
 import com.ktds.board.common.entity.BaseTimeEntity;
-import com.ktds.board.common.entity.ModifiedTimeEntity;
 import com.ktds.board.user.db.entity.User;
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,8 +14,9 @@ import lombok.*;
 @Entity
 public class Like extends BaseTimeEntity {
 
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "like_id", nullable = false)
 	private Long id;
 
 	@Column(name = "type", nullable = false)

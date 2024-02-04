@@ -1,11 +1,15 @@
 package com.ktds.board.board.db.entity;
 
+import com.ktds.board.common.entity.ModifiedTimeEntity;
+import com.ktds.board.user.db.entity.User;
+import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ktds.board.common.entity.ModifiedTimeEntity;
-import jakarta.persistence.*;
-import lombok.*;
+import static jakarta.persistence.FetchType.LAZY;
 
 @Getter
 @Builder
@@ -15,22 +19,38 @@ import lombok.*;
 @Entity
 public class Comment extends ModifiedTimeEntity {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "comment_id", nullable = false)
     private Long id;
 
-    @Column(nullable = false, length = 1000)
+    @Column(name = "content", nullable = false, length = 1000)
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "article_id")
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "article_id", nullable = false)
     private Article article;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "parent_id")
     private Comment parent;
 
+    @ColumnDefault("FALSE")
+    @Column(name = "is_deleted", nullable = false)
+    private Boolean isDeleted;
+
+    @Column(name = "step", nullable = false)
+    private Integer step;
+
     @Builder.Default
-    @OneToMany(mappedBy = "parent", orphanRemoval = true)
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> children = new ArrayList<>();
+
+    public void updateParent(Comment comment) {
+        this.parent = comment;
+    }
 }

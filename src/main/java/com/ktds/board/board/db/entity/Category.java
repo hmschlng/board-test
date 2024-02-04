@@ -12,8 +12,8 @@ import lombok.*;
 @Entity
 public class Category {
     @Id
-    @Column(name = "category_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "category_id", nullable = false)
     private Long id;
 
     @NotBlank(message = "필수 입력 항목입니다.")
