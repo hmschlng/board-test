@@ -1,10 +1,15 @@
 package com.ktds.board.user.api.service;
 
-import com.ktds.board.user.api.controller.UserPostReq;
+import com.ktds.board.user.api.dto.request.UserPostReq;
 import com.ktds.board.user.api.dto.request.UserGetReq;
+import com.ktds.board.user.api.dto.response.UserGetResp;
 
 public interface UserService {
-	Object getOne(UserGetReq req);
+	UserGetResp getOne(UserGetReq req);
 
-	Object saveOne(UserPostReq req);
+	Long saveOne(UserPostReq req);
+
+	boolean emailExists(String email);
+
+	boolean nicknameExists(String nickname);
 }
