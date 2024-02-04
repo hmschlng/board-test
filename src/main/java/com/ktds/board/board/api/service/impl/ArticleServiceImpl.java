@@ -1,9 +1,5 @@
 package com.ktds.board.board.api.service.impl;
 
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
 import com.ktds.board.board.api.dto.request.ArticleListGetReq;
 import com.ktds.board.board.api.dto.request.ArticlePostReq;
 import com.ktds.board.board.api.dto.request.ArticlePutReq;
@@ -15,8 +11,10 @@ import com.ktds.board.board.db.repository.ArticleRepository;
 import com.ktds.board.board.db.repository.CategoryRepository;
 import com.ktds.board.user.db.entity.User;
 import com.ktds.board.user.db.repository.UserRepository;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
