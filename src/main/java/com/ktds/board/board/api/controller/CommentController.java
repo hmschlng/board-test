@@ -1,32 +1,23 @@
 package com.ktds.board.board.api.controller;
 
-import java.net.URI;
-import java.util.List;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.ktds.board.board.api.dto.request.CommentListGetResp;
 import com.ktds.board.board.api.dto.request.CommentPostReq;
 import com.ktds.board.board.api.dto.request.CommentPutReq;
 import com.ktds.board.board.api.service.CommentService;
 import com.ktds.board.common.annotation.ApiDocumentResponse;
 import com.ktds.board.common.entity.BaseResponseBody;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
 
 @Tag(name = "댓글 관리 API", description = "댓글을 조회, 추가, 수정, 삭제하는 API입니다.")
 @Validated
@@ -41,6 +32,8 @@ public class CommentController {
 	@Operation(summary = "getCommentList", description="게시글의 댓글 모음 조회")
 	@GetMapping("/{articleId}")
 	public ResponseEntity<? extends BaseResponseBody> getCommentList(
+		@Positive(message = "필수 입력항목입니다. (양수)")
+		@Max(value = Long.MAX_VALUE, message = "id 범위를 벗어났습니다.")
 		@PathVariable("articleId") Long articleId
 	) {
 		var commentList = commentService.getAll(articleId);
@@ -54,9 +47,17 @@ public class CommentController {
 	// 추후 기간별 조회 구현
 	@ApiDocumentResponse
 	@Operation(summary = "getMyCommentList", description="내가 쓴 댓글 목록 조회")
-	@GetMapping("/myComment")
-	public List<CommentListGetResp> getMyCommentList() {
-		return null;
+	@GetMapping("/myComment/{userId}")
+	public ResponseEntity<? extends BaseResponseBody> getMyCommentList(
+		@Positive(message = "필수 입력항목입니다. (양수)")
+		@Max(value = Long.MAX_VALUE, message = "id 범위를 벗어났습니다.")
+		@PathVariable("userId") Long userId
+	) {
+		var commentList = commentService.getAllMine(userId);
+
+		return ResponseEntity
+				.ok()
+				.body(new BaseResponseBody<>(HttpStatus.OK, commentList));
 	}
 
 	// 댓글 작성
@@ -84,7 +85,7 @@ public class CommentController {
 		@RequestBody @Valid CommentPutReq req
 	) {
 		var commentId = commentService.updateOne(req);
-		var successMessage = "댓글을 성공적으로 추가했습니다. (commentId=" + commentId + ")";
+		var successMessage = "댓글을 성공적으로 수정했습니다. (commentId=" + commentId + ")";
 
 		return ResponseEntity
 			.ok()
