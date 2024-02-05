@@ -5,14 +5,16 @@ import com.ktds.board.user.db.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static jakarta.persistence.FetchType.LAZY;
 
+@DynamicInsert
 @Getter
-@Builder
+@Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "comments")
@@ -52,5 +54,9 @@ public class Comment extends ModifiedTimeEntity {
 
     public void updateParent(Comment comment) {
         this.parent = comment;
+    }
+
+    public void deleteComment() {
+        this.isDeleted = true;
     }
 }

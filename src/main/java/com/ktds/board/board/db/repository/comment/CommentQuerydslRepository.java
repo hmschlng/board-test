@@ -8,4 +8,6 @@ import java.util.List;
 @Repository
 public interface CommentQuerydslRepository {
     List<Comment> findAllByArticleId(Long articleId);
+
+    List<Comment> findAllByUserId(Long userId);
 }

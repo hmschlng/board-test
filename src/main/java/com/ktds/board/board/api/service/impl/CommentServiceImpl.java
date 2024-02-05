@@ -30,15 +30,24 @@ public class CommentServiceImpl implements CommentService {
 		var commentList = commentRepository.findAllByArticleId(articleId);
 
 		return commentList.stream().map(comment ->
-				CommentListGetResp.builder()
-						.comment(comment)
-						.build()
+			CommentListGetResp.builder()
+				.comment(comment)
+				.build()
 		).toList();
 	}
 
 	@Override
-	public List<CommentListGetResp> getAllMine(Long userId) {
-		return null;
+	public List<CommentListGetResp> getAllByUserId(Long userId) {
+		var user = userRepository.findById(userId)
+			.orElseThrow(() -> new IllegalArgumentException("사용자 정보가 없습니다."));
+
+		var commentList = commentRepository.findAllByUserId(userId);
+
+		return commentList.stream().map(comment ->
+			CommentListGetResp.builder()
+				.comment(comment)
+				.build()
+		).toList();
 	}
 
 	@Override
@@ -53,29 +62,48 @@ public class CommentServiceImpl implements CommentService {
 		var step = 0;
 
 		if(Objects.nonNull(req.parentId())) {
-			parentComment = commentRepository.findById(req.parentId())
-					.orElseThrow(() -> new IllegalArgumentException("부모 댓글 정보가 없습니다."));
+			parentComment = checkAndGetComment(req.parentId());
 			step = parentComment.getStep() + 1;
 		}
 
 		return commentRepository.save(Comment.builder()
-				.content(req.content())
-				.article(article)
-				.user(user)
-				.parent(parentComment)
-				.step(step)
-				.build()
+			.content(req.content())
+			.article(article)
+			.user(user)
+			.parent(parentComment)
+			.step(step)
+			.build()
 		).getId();
 	}
 
 	@Override
 	public Long updateOne(CommentPutReq req) {
-		return null;
+
+		var comment = checkAndGetComment(req.id());
+
+		if(comment.getIsDeleted()) {
+			throw new IllegalArgumentException("이미 삭제된 댓글입니다.");
+		}
+
+		var updated = comment.toBuilder()
+			.content(req.content())
+			.build();
+
+		return commentRepository.save(updated)
+			.getId();
 	}
 
 	@Override
 	public Long deleteById(Long id) {
-		return null;
+		var comment = checkAndGetComment(id);
+
+		commentRepository.deleteById(id);
+
+		return comment.getId();
 	}
 
+	private Comment checkAndGetComment(Long id) {
+		return commentRepository.findById(id)
+			.orElseThrow(() -> new IllegalArgumentException("댓글 정보가 없습니다."));
+	}
 }

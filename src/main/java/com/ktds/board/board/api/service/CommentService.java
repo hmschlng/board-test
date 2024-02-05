@@ -10,7 +10,7 @@ public interface CommentService {
 
 	List<CommentListGetResp> getAll(Long articleId);
 
-	List<CommentListGetResp> getAllMine(Long userId);
+	List<CommentListGetResp> getAllByUserId(Long userId);
 
 	Long saveOne(CommentPostReq req);
 

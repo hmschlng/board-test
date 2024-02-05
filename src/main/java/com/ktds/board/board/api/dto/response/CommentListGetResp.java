@@ -4,6 +4,7 @@ import com.ktds.board.board.db.entity.Comment;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -20,11 +21,12 @@ public class CommentListGetResp {
 
     @Builder
     public CommentListGetResp(Comment comment) {
+        Comment parent;
         this.id = comment.getId();
         this.content = (comment.getIsDeleted()) ? "삭제된 댓글입니다." : comment.getContent();
         this.articleId = comment.getArticle().getId();
         this.userId = comment.getUser().getId();
-        this.parentId = comment.getParent().getId();
+        this.parentId = Objects.isNull(parent = comment.getParent()) ? 0 : parent.getId();
         this.step = comment.getStep();
         this.createdAt = comment.getCreatedAt();
         this.modifiedAt = comment.getLastModifiedAt();

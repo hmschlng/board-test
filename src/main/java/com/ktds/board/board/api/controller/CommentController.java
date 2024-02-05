@@ -104,6 +104,6 @@ public class CommentController {
 
 		return ResponseEntity
 			.ok()
-			.body(new BaseResponseBody(HttpStatus.OK, successMessage));
+			.body(new BaseResponseBody<>(HttpStatus.OK, successMessage));
 	}
 }

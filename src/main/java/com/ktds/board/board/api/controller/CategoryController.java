@@ -17,7 +17,6 @@ import com.ktds.board.board.api.service.CategoryService;
 import com.ktds.board.common.annotation.ApiDocumentResponse;
 import com.ktds.board.common.entity.BaseResponseBody;
 
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
