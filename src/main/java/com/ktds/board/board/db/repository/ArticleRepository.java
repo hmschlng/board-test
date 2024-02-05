@@ -17,5 +17,11 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 		return this.findArticlesByCategory_IdOrderByCreatedAtDesc(categoryId);
 	}
 
+	default Optional<List<Article>> findAllByUserId(Long userId) {
+		return this.findArticlesByUser_IdOrderByCreatedAtDesc(userId);
+	}
+
 	Optional<List<Article>> findArticlesByCategory_IdOrderByCreatedAtDesc(Long categoryId);
+
+	Optional<List<Article>> findArticlesByUser_IdOrderByCreatedAtDesc(Long userId);
 }

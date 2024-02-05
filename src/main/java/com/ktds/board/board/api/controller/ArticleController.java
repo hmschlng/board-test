@@ -115,9 +115,9 @@ public class ArticleController {
     // 게시글 삭제
     @ApiDocumentResponse
     @Operation(summary = "deleteArticle", description="게시글 삭제")
-    @DeleteMapping
+    @DeleteMapping("/{articleId}")
     public ResponseEntity<? extends BaseResponseBody> deleteArticle(
-        @PathVariable Long id
+        @PathVariable("articleId") Long id
     ) {
         var articleId = articleService.deleteById(id);
 

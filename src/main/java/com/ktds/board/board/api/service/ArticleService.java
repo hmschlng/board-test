@@ -8,13 +8,16 @@ import com.ktds.board.board.api.dto.response.ArticleGetResp;
 import java.util.List;
 
 public interface ArticleService {
-    List<ArticleGetResp> getAll(ArticleListGetReq req);
+	List<ArticleGetResp> getAll(ArticleListGetReq req);
 
-    ArticleGetResp getOne(Long articleId);
+	List<ArticleGetResp> getAllByUserId(Long id);
+
+	ArticleGetResp getOne(Long articleId);
 
 	Long saveOne(ArticlePostReq req);
 
 	Long updateOne(ArticlePutReq req);
 
 	Long deleteById(Long articleId);
+
 }

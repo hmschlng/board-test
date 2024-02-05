@@ -5,8 +5,8 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Positive;
 
 public record ArticleListGetReq(
-	Integer pageNum,
-	Integer viewPerPage,
+	// Integer pageNum,
+	// Integer viewPerPage,
 
 	@Schema(description = "카테고리 식별자", type = "Long", example = "1")
 	@Positive(message = "필수 입력항목입니다. (양수)")

@@ -13,6 +13,7 @@ import com.ktds.board.user.db.entity.User;
 import com.ktds.board.user.db.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -41,12 +42,36 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
+	public List<ArticleGetResp> getAllByUserId(Long id) {
+
+		var articleList = articleRepository.findAllByUserId(id)
+			.orElseThrow(() -> new IllegalArgumentException("사용자 정보가 없습니다."));
+
+		return articleList.stream().map(article ->
+			ArticleGetResp.builder()
+				.article(article)
+				.build()
+		).toList();
+	}
+
+	@Transactional
+	@Override
 	public ArticleGetResp getOne(Long articleId) {
 		var article = checkAndGetArticle(articleId);
+
+		updateViewCnt(article);
 
 		return ArticleGetResp.builder()
 			.article(article)
 			.build();
+	}
+
+	private void updateViewCnt(Article article) {
+		var updated = article.toBuilder()
+			.views(article.getViews() + 1)
+			.build();
+
+		articleRepository.save(updated);
 	}
 
 	@Override
