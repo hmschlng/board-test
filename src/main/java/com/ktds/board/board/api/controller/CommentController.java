@@ -5,6 +5,8 @@ import com.ktds.board.board.api.dto.request.CommentPutReq;
 import com.ktds.board.board.api.service.CommentService;
 import com.ktds.board.common.annotation.ApiDocumentResponse;
 import com.ktds.board.common.entity.BaseResponseBody;
+import com.ktds.board.user.api.dto.request.UserGetReq;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -47,13 +49,11 @@ public class CommentController {
 	// 추후 기간별 조회 구현
 	@ApiDocumentResponse
 	@Operation(summary = "getMyCommentList", description="내가 쓴 댓글 목록 조회")
-	@GetMapping("/myComment/{userId}")
+	@PostMapping("/me")
 	public ResponseEntity<? extends BaseResponseBody> getMyCommentList(
-		@Positive(message = "필수 입력항목입니다. (양수)")
-		@Max(value = Long.MAX_VALUE, message = "id 범위를 벗어났습니다.")
-		@PathVariable("userId") Long userId
+		@RequestBody @Valid UserGetReq req
 	) {
-		var commentList = commentService.getAllMine(userId);
+		var commentList = commentService.getAllByUserId(req.id());
 
 		return ResponseEntity
 				.ok()
@@ -70,7 +70,7 @@ public class CommentController {
 	) {
 		var commentId = commentService.saveOne(req);
 		var location = URI.create(request.getRequestURI() + "/" + req.articleId() + "/" + commentId);
-		var successMessage = "댓글을 성공적으로 추가했습니다. (userID=" + req.userId() + ", articleId=" + req.articleId() + ")";
+		var successMessage = "댓글을 성공적으로 추가했습니다. (userID=" + req.userId() + ", articleId=" + req.articleId() + ", commentId=" + commentId + ")";
 
 		return ResponseEntity
 			.created(location)

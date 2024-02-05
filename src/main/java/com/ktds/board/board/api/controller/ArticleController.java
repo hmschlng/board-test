@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -20,6 +21,7 @@ import com.ktds.board.board.api.dto.request.ArticlePutReq;
 import com.ktds.board.board.api.service.ArticleService;
 import com.ktds.board.common.annotation.ApiDocumentResponse;
 import com.ktds.board.common.entity.BaseResponseBody;
+import com.ktds.board.user.api.dto.request.UserGetReq;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -48,6 +50,20 @@ public class ArticleController {
         return ResponseEntity
                 .ok()
                 .body(new BaseResponseBody<>(HttpStatus.OK, articleList));
+    }
+
+    // 내가 쓴 게시글 전체 조회
+    @ApiDocumentResponse
+    @Operation(summary = "getMyArticleList", description="내가 쓴 게시글 전체 조회")
+    @PostMapping("/me")
+    public ResponseEntity<? extends BaseResponseBody> getMyArticleList(
+        @RequestBody @Valid UserGetReq req
+    ) {
+        var articles = articleService.getAllByUserId(req.id());
+
+        return ResponseEntity
+            .ok()
+            .body(new BaseResponseBody<>(HttpStatus.OK, articles));
     }
 
     // 게시글 단건조회
