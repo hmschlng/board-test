@@ -1,5 +1,6 @@
 package com.ktds.board.user.api.service.impl;
 
+import com.github.f4b6a3.tsid.Tsid;
 import com.ktds.board.user.api.dto.response.UserGetResp;
 import com.ktds.board.user.db.entity.User;
 import com.ktds.board.user.db.repository.UserRepository;
@@ -43,8 +44,8 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("이미 존재하는 닉네임입니다.");
 
         return userRepository.save(User.builder()
+                .id(Tsid.fast().toLong())
                 .email(req.email())
-                .name(req.name())
                 .nickname(req.nickname())
                 .build()).getId();
     }
