@@ -1,4 +1,4 @@
-package com.ktds.board.common.aop;
+package com.ktds.board.common.logger;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;

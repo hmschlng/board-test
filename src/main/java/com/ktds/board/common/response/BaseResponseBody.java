@@ -1,4 +1,4 @@
-package com.ktds.board.common.entity;
+package com.ktds.board.common.response;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package com.ktds.board.common.util;
+package com.ktds.board.common.swagger;
 
 public class HttpStatusCodeConstants {
 

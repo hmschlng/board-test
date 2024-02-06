@@ -1,4 +1,4 @@
-package com.ktds.board.common.config;
+package com.ktds.board.common.querydsl;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;

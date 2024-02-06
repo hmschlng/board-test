@@ -1,4 +1,4 @@
-package com.ktds.board.common.config;
+package com.ktds.board.common.swagger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

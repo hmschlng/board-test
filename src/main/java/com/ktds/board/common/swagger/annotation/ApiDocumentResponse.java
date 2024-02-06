@@ -1,4 +1,4 @@
-package com.ktds.board.common.annotation;
+package com.ktds.board.common.swagger.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
-import static com.ktds.board.common.util.HttpStatusCodeConstants.*;
+import static com.ktds.board.common.swagger.HttpStatusCodeConstants.*;
 
 import com.ktds.board.common.exception.handler.BaseRuntimeExceptionHandler;
 import com.ktds.board.common.exception.handler.ValidationExceptionHandler;

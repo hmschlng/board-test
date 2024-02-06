@@ -1,4 +1,4 @@
-package com.ktds.board.common.config;
+package com.ktds.board.common.jasypt;
 
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;

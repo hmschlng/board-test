@@ -1,4 +1,4 @@
-package com.ktds.board.common.config;
+package com.ktds.board.common.audit.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
