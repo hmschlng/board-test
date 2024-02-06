@@ -3,8 +3,8 @@ package com.ktds.board.board.api.controller;
 import com.ktds.board.board.api.dto.request.CommentPostReq;
 import com.ktds.board.board.api.dto.request.CommentPutReq;
 import com.ktds.board.board.api.service.CommentService;
-import com.ktds.board.common.annotation.ApiDocumentResponse;
-import com.ktds.board.common.entity.BaseResponseBody;
+import com.ktds.board.common.swagger.annotation.ApiDocumentResponse;
+import com.ktds.board.common.response.BaseResponseBody;
 import com.ktds.board.user.api.dto.request.UserGetReq;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,7 +24,7 @@ import java.net.URI;
 @Tag(name = "댓글 관리 API", description = "댓글을 조회, 추가, 수정, 삭제하는 API입니다.")
 @Validated
 @RequiredArgsConstructor
-@RequestMapping("/api/comment")
+@RequestMapping("/api/board/comment")
 @RestController
 public class CommentController {
 	private final CommentService commentService;

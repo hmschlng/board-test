@@ -18,8 +18,8 @@ import com.ktds.board.board.api.dto.request.ArticleListGetReq;
 import com.ktds.board.board.api.dto.request.ArticlePostReq;
 import com.ktds.board.board.api.dto.request.ArticlePutReq;
 import com.ktds.board.board.api.service.ArticleService;
-import com.ktds.board.common.annotation.ApiDocumentResponse;
-import com.ktds.board.common.entity.BaseResponseBody;
+import com.ktds.board.common.swagger.annotation.ApiDocumentResponse;
+import com.ktds.board.common.response.BaseResponseBody;
 import com.ktds.board.user.api.dto.request.UserGetReq;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,7 +32,7 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "게시글 관리 API", description = "게시글을 조회, 추가, 수정, 삭제하는 API입니다.")
 @Validated
 @RequiredArgsConstructor
-@RequestMapping("/api/article")
+@RequestMapping("/api/board/article")
 @RestController
 public class ArticleController {
 

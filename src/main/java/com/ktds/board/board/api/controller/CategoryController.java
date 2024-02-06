@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ktds.board.board.api.dto.request.CategoryPostReq;
 import com.ktds.board.board.api.service.CategoryService;
-import com.ktds.board.common.annotation.ApiDocumentResponse;
-import com.ktds.board.common.entity.BaseResponseBody;
+import com.ktds.board.common.swagger.annotation.ApiDocumentResponse;
+import com.ktds.board.common.response.BaseResponseBody;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "카테고리 관리 API", description = "카테고리를 조회하는 API입니다.")
 @Validated
 @RequiredArgsConstructor
-@RequestMapping("/api/category")
+@RequestMapping("/api/board/category")
 @RestController
 public class CategoryController {
 

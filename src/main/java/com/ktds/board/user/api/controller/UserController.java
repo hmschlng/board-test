@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ktds.board.common.annotation.ApiDocumentResponse;
-import com.ktds.board.common.entity.BaseResponseBody;
+import com.ktds.board.common.swagger.annotation.ApiDocumentResponse;
+import com.ktds.board.common.response.BaseResponseBody;
 import com.ktds.board.user.api.dto.request.UserEmailExistsReq;
 import com.ktds.board.user.api.dto.request.UserGetReq;
 import com.ktds.board.user.api.dto.request.UserNicknameExistsReq;

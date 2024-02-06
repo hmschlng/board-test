@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ktds.board.board.api.dto.request.LikePostReq;
 import com.ktds.board.board.api.service.LikeService;
-import com.ktds.board.common.annotation.ApiDocumentResponse;
-import com.ktds.board.common.entity.BaseResponseBody;
+import com.ktds.board.common.swagger.annotation.ApiDocumentResponse;
+import com.ktds.board.common.response.BaseResponseBody;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "좋아요 관리 API", description = "댓글이나 게시글에 누르는 좋아요 기능과 관련된 API입니다.")
 @Validated
 @RequiredArgsConstructor
-@RequestMapping("/api/like")
+@RequestMapping("/api/board/like")
 @RestController
 public class LikeController {
 	private LikeService likeService;

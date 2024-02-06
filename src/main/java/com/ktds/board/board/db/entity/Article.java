@@ -1,6 +1,6 @@
 package com.ktds.board.board.db.entity;
 
-import com.ktds.board.common.entity.ModifiedTimeEntity;
+import com.ktds.board.common.audit.entity.ModifiedTimeEntity;
 import com.ktds.board.user.db.entity.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
