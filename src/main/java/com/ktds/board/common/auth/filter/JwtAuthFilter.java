@@ -77,7 +77,7 @@ public class JwtAuthFilter extends GenericFilterBean {
 				}
 			}
 			default -> log.info("no valid JWT token found, uri: {}", ((HttpServletRequest)request).getRequestURI());
-		};
+		}
 
 		chain.doFilter(request, response);
 	}

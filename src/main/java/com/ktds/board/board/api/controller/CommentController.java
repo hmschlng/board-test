@@ -42,7 +42,7 @@ public class CommentController {
 
 		return ResponseEntity
 			.ok()
-			.body(new BaseResponseBody(HttpStatus.OK, commentList));
+			.body(new BaseResponseBody<>(HttpStatus.OK, commentList));
 	}
 
 	// 내가 쓴 댓글 모음 조회
@@ -89,7 +89,7 @@ public class CommentController {
 
 		return ResponseEntity
 			.ok()
-			.body(new BaseResponseBody(HttpStatus.OK, successMessage));
+			.body(new BaseResponseBody<>(HttpStatus.OK, successMessage));
 	}
 
 	// 댓글 삭제

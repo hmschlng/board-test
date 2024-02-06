@@ -90,8 +90,8 @@ public class JwtTokenProvider {
 			.get("userId", Long.class);
 	}
 
-	public Claims getClaims(String token) {
-		return jwtUtil.parseClaims(token);
-	}
+	// public Claims getClaims(String token) {
+	// 	return jwtUtil.parseClaims(token);
+	// }
 
 }
