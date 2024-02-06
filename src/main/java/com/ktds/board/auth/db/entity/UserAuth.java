@@ -1,16 +1,8 @@
 package com.ktds.board.auth.db.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.ktds.board.auth.db.entity.enumtype.Role;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Builder
 @Getter
@@ -26,7 +18,7 @@ public class UserAuth {
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "role", nullable = false)
-	private String role;
+	private Role role;
 
 	// private String oauthId;
 

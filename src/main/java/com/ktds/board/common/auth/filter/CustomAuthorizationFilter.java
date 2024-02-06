@@ -2,13 +2,12 @@ package com.ktds.board.common.auth.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ktds.board.common.auth.util.JwtTokenProvider;
-
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,22 +23,22 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
+@RequiredArgsConstructor
 @Component
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
-	@Autowired
-	private JwtTokenProvider jwtTokenProvider;
+	private final JwtTokenProvider jwtTokenProvider;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 		log.info("doFilterInternal");
 		log.info("ㄴ> request uri = " + request.getRequestURI());
 
-		var isExcluded = request.getServletPath().contains("health")
+		var isExcluded = request.getServletPath().contains("/")
 			|| request.getServletPath().contains("swagger")
 			|| request.getServletPath().contains("api-docs");
 
-		if (!isExcluded) {   // 인증없이 건너 뛸 요청 설정
+		if (!isExcluded) {   // 인증이 필요할 경우
 
 			String token = request.getHeader("Authorization").substring(7);   // 헤더의 토큰 파싱 (Bearer 제거)
 

@@ -1,22 +1,14 @@
 package com.ktds.board.common.auth.util;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.UnsupportedJwtException;
+import com.ktds.board.common.auth.enumtype.JwtTokenStatusCode;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import static com.ktds.board.common.auth.enumtype.JwtTokenStatusCode.ACCESSED;
-import static com.ktds.board.common.auth.enumtype.JwtTokenStatusCode.EXPIRED;
-import static com.ktds.board.common.auth.enumtype.JwtTokenStatusCode.DENIED;
 
 import java.io.Serializable;
 import java.security.Key;
@@ -24,7 +16,7 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Map;
 
-import com.ktds.board.common.auth.enumtype.JwtTokenStatusCode;
+import static com.ktds.board.common.auth.enumtype.JwtTokenStatusCode.*;
 
 @Slf4j
 @Component
@@ -32,6 +24,7 @@ public class JwtUtil {
 
 	private final Key key;
 
+	@Autowired
 	public JwtUtil(
 		@Value("${jwt.secret}") String secret
 	) {

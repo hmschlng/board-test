@@ -1,9 +1,9 @@
 # jwt
 
 jwt:
-  secret: ENC(1r0GC1w7039YnH/5iFs/TdzxsJjeGG9O1k9maKsACzmKD9JbRURFPEUPifd+s4pRRERWZaG45nfGdhJlzemz7A==)
-  access-token-expiration-period: ENC(fMRWvyOI2RPv/dGcq7Vndw==)
-  refresh-token-expiration-period: ENC(NpB6yyjvIcy+ZnNtoMfl6g==)
+  secret: ENC(K0FEs4AYN7SZ6+ldy4RNuKcwm1oM8ao3pNQ9FKcVMxqgDsw2xYzc1PXjXaJhIdklso7jGkY7diehJ6zlggtpLOTfmwLULykL)
+  access-token-expiration-period: ENC(XJ6E2XXCS1BjNx0aJs7TfA==)
+  refresh-token-expiration-period: ENC(Pz/0gEw/ieCPy7Fxee8+Sg==)
 #  header-name: Authorization
 
 # OAuth2

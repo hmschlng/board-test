@@ -19,6 +19,6 @@ spring:
 
 #redis
 
-#redis:
-#  host:
-#  port:
+redis:
+  host: 3.39.251.120
+  port: 16379

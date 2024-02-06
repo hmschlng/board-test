@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 public class UserGetResp {
     private Long id;
     private String email;
-    private String name;
     private String nickname;
     private String profileImg;
     private LocalDateTime createdAt;
@@ -20,7 +19,6 @@ public class UserGetResp {
     public UserGetResp(User user) {
         this.id = user.getId();
         this.email = user.getEmail();
-        this.name = user.getName();
         this.nickname = user.getNickname();
         this.profileImg = user.getProfileImg();
         this.createdAt = user.getCreatedAt();
