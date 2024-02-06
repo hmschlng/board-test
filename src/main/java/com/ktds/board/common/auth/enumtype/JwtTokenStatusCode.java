@@ -4,5 +4,5 @@ import lombok.Getter;
 
 @Getter
 public enum JwtTokenStatusCode {
-	DENIED, ACCESSED, EXPIRED;
+	DENIED, ACCESSED, EXPIRED
 }
