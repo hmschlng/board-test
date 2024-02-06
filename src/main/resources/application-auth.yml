@@ -1,10 +1,10 @@
 # jwt
 
 jwt:
-  header-name: Authorization
   secret: ENC(1r0GC1w7039YnH/5iFs/TdzxsJjeGG9O1k9maKsACzmKD9JbRURFPEUPifd+s4pRRERWZaG45nfGdhJlzemz7A==)
   access-token-expiration-period: ENC(fMRWvyOI2RPv/dGcq7Vndw==)
   refresh-token-expiration-period: ENC(NpB6yyjvIcy+ZnNtoMfl6g==)
+#  header-name: Authorization
 
 # OAuth2
 
