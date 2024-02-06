@@ -1,9 +1,21 @@
+server:
+  port: 8080
+
 spring:
   application:
     name: key-board
 
   profiles:
-    include: db
+    include:
+      - db
+      - auth
+
+# log level setting
+logging:
+  level:
+    root: info
+    com:
+      ktds: debug
 
   servlet:
     multipart:
@@ -15,4 +27,3 @@ spring:
 jasypt:
   encryptor:
     bean: jasyptStringEncryptor
-

@@ -1,0 +1,24 @@
+# jwt
+
+jwt:
+  header-name: Authorization
+  secret: ENC(1r0GC1w7039YnH/5iFs/TdzxsJjeGG9O1k9maKsACzmKD9JbRURFPEUPifd+s4pRRERWZaG45nfGdhJlzemz7A==)
+  access-token-expiration-period: ENC(fMRWvyOI2RPv/dGcq7Vndw==)
+  refresh-token-expiration-period: ENC(NpB6yyjvIcy+ZnNtoMfl6g==)
+
+# OAuth2
+
+#spring:
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          github:
+#            client-id: ENC(cGZ2aSg57gtrME04EfID2lBDd/VHSF8AP0f1+MUNJ9k=)
+#            client-secret: ENC(cc1Tdktj6b8yo7BBlrVVlGvrQWRh2ou18OG7Ez9c1IZIsLaprF3XMlpi07RcSFNCcgoK8O6vkDE=)
+#            redirect-uri: ENC(RTfTf+THRqR8vwtyf5UKB7N/zo27ljU5IU18ND8c8h4kYaoVtD9rsysHCX3Yyy/lBXVWFTv7pUs=)
+
+#request:
+#  url:
+#    user-server:
+#    front-login:
