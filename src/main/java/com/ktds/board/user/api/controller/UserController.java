@@ -16,7 +16,7 @@ import com.ktds.board.user.api.dto.request.UserEmailExistsReq;
 import com.ktds.board.user.api.dto.request.UserGetReq;
 import com.ktds.board.user.api.dto.request.UserNicknameExistsReq;
 import com.ktds.board.user.api.dto.request.UserPostReq;
-import com.ktds.board.user.api.service.UserService;
+import com.ktds.board.user.api.service.UserInfoService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,14 +31,14 @@ import lombok.RequiredArgsConstructor;
 @RestController
 public class UserController {
 
-	private final UserService userService;
+	private final UserInfoService userInfoService;
 
 	@ApiDocumentResponse
 	@Operation(summary = "getUser", description="사용자 정보 조회")
 	@PostMapping("/user")
 	public ResponseEntity<? extends BaseResponseBody> getUser(
 		@RequestBody @Valid UserGetReq req) {
-		var user = userService.getOne(req);
+		var user = userInfoService.getOne(req);
 
 		return ResponseEntity
 			.ok()
@@ -52,7 +52,7 @@ public class UserController {
 		@RequestBody @Valid UserPostReq req,
 		HttpServletRequest request) {
 
-		var userId = userService.saveOne(req);
+		var userId = userInfoService.saveOne(req);
 		var location = URI.create(request.getRequestURI() + "/" + userId);
 		var successMessage = "사용자 계정을 성공적으로 생성했습니다. (userId=" + userId + ")";
 
@@ -67,7 +67,7 @@ public class UserController {
 	public ResponseEntity<? extends BaseResponseBody> isUserEmailExists(
 		@RequestBody @Valid UserEmailExistsReq req) {
 
-		var exists =  userService.emailExists(req.email());
+		var exists =  userInfoService.emailExists(req.email());
 
 		return ResponseEntity
 			.ok()
@@ -80,7 +80,7 @@ public class UserController {
 	public ResponseEntity<? extends BaseResponseBody> isUserNicknameExists(
 			@RequestBody @Valid UserNicknameExistsReq req) {
 
-		var exists =  userService.nicknameExists(req.nickname());
+		var exists =  userInfoService.nicknameExists(req.nickname());
 
 		return ResponseEntity
 				.ok()

@@ -20,9 +20,12 @@ spring:
 # log level setting
 logging:
   level:
-    root: info
+    root: debug
     com:
       ktds: debug
+    org:
+      springframework:
+        security: debug
 
 jasypt:
   encryptor:

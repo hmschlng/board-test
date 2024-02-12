@@ -1,21 +1,20 @@
 package com.ktds.board.common.auth.util;
 
-import io.jsonwebtoken.*;
+import com.ktds.board.auth.api.service.impl.RedisService;
+import com.ktds.board.common.auth.enumtype.JwtTokenStatusCode;
+import com.ktds.board.common.auth.enumtype.TokenType;
+import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import static com.ktds.board.common.auth.enumtype.TokenType.ACCESS_TOKEN;
-import static com.ktds.board.common.auth.enumtype.TokenType.REFRESH_TOKEN;
-
 import java.io.Serializable;
 import java.util.Map;
 
-import com.ktds.board.common.auth.enumtype.JwtTokenStatusCode;
-import com.ktds.board.common.auth.enumtype.TokenType;
+import static com.ktds.board.common.auth.enumtype.TokenType.ACCESS_TOKEN;
+import static com.ktds.board.common.auth.enumtype.TokenType.REFRESH_TOKEN;
 
 @Slf4j
 @Service
@@ -24,19 +23,19 @@ public class JwtTokenProvider {
 	private final JwtUtil jwtUtil;
 	private final Long accessTokenLifetime;
 	private final Long refreshTokenLifetime;
-	// private final RedisService redisService;
+	private final RedisService redisService;
 
 	@Autowired
 	public JwtTokenProvider(
 		JwtUtil jwtUtil,
 		@Value("${jwt.access-token-expiration-period}") Long accessTokenLifetime,
-		@Value("${jwt.refresh-token-expiration-period}") Long refreshTokenLifeTime
-		// RedisService redisService
+		@Value("${jwt.refresh-token-expiration-period}") Long refreshTokenLifeTime,
+		RedisService redisService
 	) {
 		this.jwtUtil = jwtUtil;
 		this.accessTokenLifetime = accessTokenLifetime;
 		this.refreshTokenLifetime = refreshTokenLifeTime;
-		// this.redisService = redisService;
+		this.redisService = redisService;
 	}
 
 	public String resolveToken(String bearerToken) {
@@ -58,11 +57,11 @@ public class JwtTokenProvider {
 		return new Token(accessToken, refreshToken);
 	}
 
-	private String generateAccess(Map<String, ? extends Serializable> body) {
+	public String generateAccess(Map<String, ? extends Serializable> body) {
 		return jwtUtil.createToken(body, this.getExpiration(ACCESS_TOKEN));
 	}
 
-	private String generateRefresh(Map<String, ? extends Serializable> body) {
+	public String generateRefresh(Map<String, ? extends Serializable> body) {
 		return jwtUtil.createToken(body, this.getExpiration(REFRESH_TOKEN));
 	}
 
@@ -77,21 +76,21 @@ public class JwtTokenProvider {
 		};
 	}
 
-	// public String getSavedRefresh(String key) {
-	// 	// return redisService.getData(key);
-	// }
+	 public String getSavedRefresh(String key) {
+	 	 return redisService.getData(key);
+	 }
 
-	// public void cacheRefreshToken(String key, String value) {
-	// 	redisService.setDataWithExpiration(key, value, REFRESHTOKEN);
-	// }
+	 public void cacheRefreshToken(String key, String value) {
+	 	redisService.setDataWithExpiration(key, value, refreshTokenLifetime);
+	 }
 
 	public Long getUserId(String token) {
 		return jwtUtil.parseClaims(token)
 			.get("userId", Long.class);
 	}
 
-	// public Claims getClaims(String token) {
-	// 	return jwtUtil.parseClaims(token);
-	// }
+	 public Claims getClaims(String token) {
+	 	return jwtUtil.parseClaims(token);
+	 }
 
 }

@@ -1,16 +1,21 @@
 package com.ktds.board.common.auth.config;
 
-import com.ktds.board.common.auth.filter.CustomAuthorizationFilter;
+import com.ktds.board.auth.api.service.impl.CustomOAuth2UserService;
+import com.ktds.board.auth.api.service.impl.CustomUserDetailsService;
+import com.ktds.board.auth.api.service.impl.OAuth2SuccessHandler;
 import com.ktds.board.common.auth.filter.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -22,9 +27,11 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @Configuration
 public class SecurityConfig {
 
-    private final CustomAuthorizationFilter customAuthorizationFilter;
     private final JwtAuthFilter jwtAuthFilter;
     private final CorsConfigurationSource corsConfigurationSource;
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;
+    private final CustomUserDetailsService customUserDetailsService;
     private final String[] allowedUrlPatternList = {
             "/favicon.ico",
             "/error",
@@ -38,7 +45,6 @@ public class SecurityConfig {
     };
 
 //    @Bean
-//    @Order(1)
 //    public SecurityFilterChain resources(HttpSecurity http) throws Exception {
 //        return http
 //            .authorizeHttpRequests(req -> req
@@ -47,37 +53,90 @@ public class SecurityConfig {
 //            ).build();
 //    }
 
+//    @Bean
+//    public WebSecurityCustomizer configure() {
+//        return (web) -> web.ignoring()
+//                .requestMatchers(
+//                        "/favicon.ico",
+//                        "/error",
+//                        "/swagger-resources/**",
+//                        "/swagger-ui/**",
+//                        "/v3/api-docs",
+//                        "/webjars/**"
+//                )
+//                .and()
+//                .ignoring()
+//                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());    // 정적인 리소스들에 대해서 시큐리티 적용 무시.
+//    }
+
     @Bean
-    public WebSecurityCustomizer configure() {
-        return (web) -> web.ignoring()
-                .requestMatchers(
-                        "/favicon.ico",
-                        "/error",
-                        "/swagger-resources/**",
-                        "/swagger-ui/**",
-                        "/v3/api-docs",
-                        "/webjars/**"
-                )
-                .and()
-                .ignoring()
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());    // 정적인 리소스들에 대해서 시큐리티 적용 무시.
-    }
-    @Bean
-//    @Order(2)
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+        http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http
+                .authorizeHttpRequests(req -> req
+                        .requestMatchers("/api/article/").permitAll()
+                        .requestMatchers("/api/category/**").permitAll()
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers(allowedUrlPatternList).permitAll()
+                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                        .anyRequest().authenticated())
+                .cors(cors -> cors
+                        .configurationSource(corsConfigurationSource))
                 .httpBasic(HttpBasicConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(cors -> cors.configurationSource(corsConfigurationSource))
-                .authorizeHttpRequests(req -> req
-                        .requestMatchers("api/article/").permitAll()
-                        .requestMatchers("/api/category/**").permitAll()
-                        .requestMatchers("api/auth/**").permitAll()
-                        .anyRequest().authenticated())
-                .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(customAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
+                .formLogin(FormLoginConfigurer::disable)
+                .sessionManagement(manager -> manager
+                        .sessionCreationPolicy(STATELESS))
+                .oauth2Login(oAuth2Login -> oAuth2Login
+                        .successHandler(oAuth2SuccessHandler)
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService(customOAuth2UserService)))
                 .build();
+//        http
+//                .cors() // cors 설정
+//                .configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
+//                .and()
+//                .httpBasic().disable()
+//                .csrf().disable()
+//                .formLogin()
+//                .loginPage("/api/auth/login").permitAll()
+//                .and()
+//                .sessionManagement()
+//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                .and()
+//                .authorizeHttpRequests()
+//                .requestMatchers("/api/auth/**").permitAll()
+//                .requestMatchers("/api/user/swagger").permitAll()
+//                .requestMatchers("/api/main/swagger").permitAll()
+//                .requestMatchers(allowedUrlPatternList).permitAll()
+//                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+////                .requestMatchers("/").permitAll()
+//                .and()
+//                .oauth2Login()
+//                .successHandler(oAuth2SuccessHandler)
+//                .userInfoEndpoint()
+//                .userService(customOAuth2UserService);
+//
+//        return http.build();
+
+    }
+
+    @Bean
+    public DaoAuthenticationProvider daoAuthenticationProvider() throws Exception {
+        var provider = new DaoAuthenticationProvider();
+
+        provider.setUserDetailsService(customUserDetailsService);
+        provider.setPasswordEncoder(bCryptPasswordEncoder());
+
+        return provider;
+    }
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
 }

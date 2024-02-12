@@ -1,31 +1,29 @@
 package com.ktds.board.user.api.service.impl;
 
 import com.github.f4b6a3.tsid.Tsid;
-import com.ktds.board.user.api.dto.response.UserGetResp;
-import com.ktds.board.user.db.entity.User;
-import com.ktds.board.user.db.repository.UserRepository;
-import org.springframework.stereotype.Service;
-
-import com.ktds.board.user.api.dto.request.UserPostReq;
 import com.ktds.board.user.api.dto.request.UserGetReq;
-import com.ktds.board.user.api.service.UserService;
-
+import com.ktds.board.user.api.dto.request.UserPostReq;
+import com.ktds.board.user.api.dto.response.UserInfoGetResp;
+import com.ktds.board.user.api.service.UserInfoService;
+import com.ktds.board.user.db.entity.UserInfo;
+import com.ktds.board.user.db.repository.UserInfoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class UserServiceImpl implements UserService {
+public class UserInfoServiceImpl implements UserInfoService {
 
-    private final UserRepository userRepository;
+    private final UserInfoRepository userInfoRepository;
 
     @Override
-    public UserGetResp getOne(UserGetReq req) {
+    public UserInfoGetResp getOne(UserGetReq req) {
 
-        var user = userRepository.findById(req.id())
+        var userInfo = userInfoRepository.findById(req.id())
                 .orElseThrow(() -> new IllegalArgumentException("사용자 정보가 없습니다."));
 
-        return UserGetResp.builder()
-                .user(user)
+        return UserInfoGetResp.builder()
+                .userInfo(userInfo)
                 .build();
     }
 
@@ -43,7 +41,7 @@ public class UserServiceImpl implements UserService {
         if(nicknameExists)
             throw new IllegalArgumentException("이미 존재하는 닉네임입니다.");
 
-        return userRepository.save(User.builder()
+        return userInfoRepository.save(UserInfo.builder()
                 .id(Tsid.fast().toLong())
                 .email(req.email())
                 .nickname(req.nickname())
@@ -52,13 +50,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean emailExists(String email) {
-        return userRepository.existsByEmail(email);
+        return userInfoRepository.existsByEmail(email);
     }
 
     @Override
     public boolean nicknameExists(String nickname) {
-        return userRepository.existsByNickname(nickname);
+        return userInfoRepository.existsByNickname(nickname);
     }
-
 
 }

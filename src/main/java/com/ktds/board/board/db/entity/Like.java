@@ -20,7 +20,7 @@ public class Like extends BaseTimeEntity {
 	private Long id;
 
 	@Column(name = "type", nullable = false)
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
 	private LikeContentType type;
 
 	@ManyToOne(fetch = FetchType.LAZY)
