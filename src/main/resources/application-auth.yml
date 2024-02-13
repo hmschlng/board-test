@@ -57,8 +57,8 @@ spring:
   mail:
     host: smtp.naver.com
     port: 587
-    username: soulb9@naver.com
-    password: didos9430!A
+    username: ENC(+WDQE9+9iA2+dapozSIXeb5NMjEvv0IUymUmji3bQQU=)
+    password: ENC(C4+fRA0bJr7atBlWYZGJcxPd1bi9c47V)
     properties:
       mail:
         debug: true
