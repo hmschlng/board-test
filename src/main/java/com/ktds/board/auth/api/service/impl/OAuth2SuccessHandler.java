@@ -75,27 +75,22 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         log.info("JWT 토큰 = {}", token);
 
         response.setHeader("Initial", isInitialLogin);
-
-        // 3. FE 에 요청할 targetUrl 생성
-        String targetUrl;
-        targetUrl = UriComponentsBuilder.fromUriString(REDIRECT_URI)
-                .queryParam("Initial", isInitialLogin)
-                .queryParam(TokenType.ACCESS_TOKEN.getKey(), "Bearer-" + token.getAccessToken()) // access 토큰
-                .build().toUriString();
+        response.setHeader(TokenType.ACCESS_TOKEN.getKey(), "Bearer-" + token.getAccessToken());
 
         // 3-1. 쿠키 생성 및 Refresh Token 저장
         Cookie cookie = new Cookie("refreshToken", token.getRefreshToken());
         cookie.setPath("/"); // Cookie의 유효 경로 설정 (루트 경로로 설정하면 전체 사이트에서 접근 가능)
-        cookie.setMaxAge(30 * 24 * 60 * 60); // Cookie의 유효 기간 설정 (예: 30일)
+        cookie.setMaxAge(jwtTokenProvider.getRefreshTokenLifetime().intValue()); // Cookie의 유효 기간 설정 (예: 30일)
         cookie.setHttpOnly(true); // JavaScript에서 접근할 수 없도록 설정
 //        cookie.setSecure(true); // HTTPS에서만 전송하도록 설정 (필요한 경우)
 
         response.addCookie(cookie);
 
         // 3-2. 헤더에 access token 저장
-        response.setHeader(TokenType.ACCESS_TOKEN.getKey(), "Bearer " + token.getAccessToken());
+        response.setHeader(TokenType.ACCESS_TOKEN.getKey(), "Bearer-" + token.getAccessToken());
 
         // 3-3. Front Page로 리다이렉트 수행
+        var targetUrl = UriComponentsBuilder.fromUriString(REDIRECT_URI).build().toUriString();
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
 
     }
@@ -112,11 +107,10 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private UserAuth saveByProviderType(String provider, Map<String, Object> attributes) {
         var oAuthId = String.valueOf(attributes.get("id"));
 
-        // UserAuth와 UserInfo에 공통으로 쓰일 ID 생성
-        var generatedID = Tsid.fast().toLong();
+        // // UserAuth와 UserInfo에 공통으로 쓰일 ID 생성
+        // var generatedID = Tsid.fast().toLong();
 
         var userAuth = UserAuth.builder()
-                .id(generatedID)
                 .email(String.valueOf(attributes.get("email")))
                 .role(Role.valueOf(String.valueOf(attributes.get("role"))))
                 .build();
@@ -134,7 +128,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         // 사용자 프로필 정보 저장
         userInfoRepository.save(UserInfo.builder()
-                .id(generatedID)
+                .id(userAuth.getId())
                 .email(userAuth.getEmail())
                 .nickname(String.valueOf(attributes.get("nickname")))
                 .profileImg(String.valueOf(attributes.get("image")))

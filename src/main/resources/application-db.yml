@@ -1,9 +1,9 @@
 spring:
   # MySQL
   datasource:
-    url: ENC(3kNnzrLc9rwKYEsSESJ5u7z765z+RzksxElX1lvmXkrjTvmRYk5SMW/5FxX8fRN2UlSJNJ7JBq4SLfBdtFDNcRValL+IRmWGVxdta6PbDck=)
-    username: ENC(yRLLXm4+PnvnKSw0EN4Yo+1CI2952xRP)
-    password: ENC(E5XNOWaCL+nnrZir1+bzP9xfoGfE/4+C)
+    url: ENC(iUvSSQ1JxQjI6Z+pAPQqFSyMSsXbmqQca9373SNaBejW2TeHTy919wdkqNg2xGFt)
+    username: ENC(bpdA5fYpXTNUWWBQic6JDd4YhWdgDpYT)
+    password: ENC(OYDcfZnEyTSXX3kGNVAJgBkv2Oh/cIeE)
     driver-class-name: com.mysql.cj.jdbc.Driver
   # JPA Properties
   jpa:

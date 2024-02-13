@@ -3,9 +3,15 @@ package com.ktds.board.auth.api.controller;
 import com.ktds.board.auth.api.dto.UserLoginRequest;
 import com.ktds.board.auth.api.dto.UserRegisterRequest;
 import com.ktds.board.auth.api.service.UserAuthService;
+import com.ktds.board.common.auth.enumtype.TokenType;
 import com.ktds.board.common.auth.util.JwtTokenProvider;
 import com.ktds.board.common.response.BaseResponseBody;
+import com.ktds.board.user.api.dto.request.UserGetReq;
+import com.ktds.board.user.api.service.UserInfoService;
+
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final UserAuthService userAuthService;
+    private final UserInfoService userInfoService;
     private final JwtTokenProvider jwtTokenProvider;
 
 
@@ -36,9 +43,26 @@ public class AuthController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<Object> signin(@RequestBody UserLoginRequest req) {
-        var success = userAuthService.login(req);
-        return ResponseEntity.ok().body("로그인 성공: " + success);
+    public ResponseEntity<Object> signin(@RequestBody UserLoginRequest req,
+        HttpServletResponse res) {
+        var userAuth = userAuthService.login(req);
+
+        var token = jwtTokenProvider.generateToken(userAuth.getId(), userAuth.getRole().getKey());
+        res.setHeader(TokenType.ACCESS_TOKEN.getKey(), "Bearer-" + token.getAccessToken());
+
+        Cookie cookie = new Cookie("refreshToken", token.getRefreshToken());
+        cookie.setPath("/"); // Cookie의 유효 경로 설정 (루트 경로로 설정하면 전체 사이트에서 접근 가능)
+        cookie.setMaxAge(jwtTokenProvider.getRefreshTokenLifetime().intValue()); // Cookie의 유효 기간 설정 (예: 30일)
+        cookie.setHttpOnly(true); // JavaScript에서 접근할 수 없도록 설정
+        //        cookie.setSecure(true); // HTTPS에서만 전송하도록 설정 (필요한 경우)
+
+        res.addCookie(cookie);
+
+        var userInfo = userInfoService.getOne(UserGetReq.builder()
+            .id(userAuth.getId())
+            .build());
+
+        return ResponseEntity.ok().body(new BaseResponseBody<>(HttpStatus.OK, userInfo));
     }
 
 //    @GetMapping("/data")

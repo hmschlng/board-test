@@ -20,7 +20,7 @@ spring:
 # log level setting
 logging:
   level:
-    root: debug
+    root: info
     com:
       ktds: debug
     org:

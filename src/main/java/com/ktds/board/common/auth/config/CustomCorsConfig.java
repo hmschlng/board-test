@@ -14,7 +14,7 @@ public class CustomCorsConfig {
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		var corsConfig = new CorsConfiguration().applyPermitDefaultValues();
-		corsConfig.addAllowedOriginPattern("http://localhost:3012");
+		corsConfig.addAllowedOriginPattern("http://localhost:5000");
 		corsConfig.setAllowedMethods(List.of(
 				"GET",
 				"POST",
@@ -31,6 +31,7 @@ public class CustomCorsConfig {
 				"content-type",
 				"samesite"));
 		corsConfig.setAllowCredentials(true);
+		corsConfig.setExposedHeaders(List.of("Authorization"));
 
 		var source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", corsConfig);

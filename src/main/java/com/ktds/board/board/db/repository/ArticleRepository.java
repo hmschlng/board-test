@@ -18,10 +18,10 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 	}
 
 	default Optional<List<Article>> findAllByUserId(Long userId) {
-		return this.findArticlesByUser_IdOrderByCreatedAtDesc(userId);
+		return this.findArticlesByUserInfo_IdOrderByCreatedAtDesc(userId);
 	}
 
 	Optional<List<Article>> findArticlesByCategory_IdOrderByCreatedAtDesc(Long categoryId);
 
-	Optional<List<Article>> findArticlesByUser_IdOrderByCreatedAtDesc(Long userId);
+	Optional<List<Article>> findArticlesByUserInfo_IdOrderByCreatedAtDesc(Long userId);
 }

@@ -7,7 +7,8 @@ import com.ktds.board.board.api.service.CommentService;
 import com.ktds.board.board.db.entity.Comment;
 import com.ktds.board.board.db.repository.ArticleRepository;
 import com.ktds.board.board.db.repository.comment.CommentRepository;
-import com.ktds.board.user.db.repository.UserRepository;
+import com.ktds.board.user.db.repository.UserInfoRepository;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ public class CommentServiceImpl implements CommentService {
 
 	private final CommentRepository commentRepository;
 	private final ArticleRepository articleRepository;
-	private final UserRepository userRepository;
+	private final UserInfoRepository userInfoRepository;
 
 	@Override
 	public List<CommentListGetResp> getAll(Long articleId) {
@@ -38,7 +39,7 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public List<CommentListGetResp> getAllByUserId(Long userId) {
-		var user = userRepository.findById(userId)
+		var user = userInfoRepository.findById(userId)
 			.orElseThrow(() -> new IllegalArgumentException("사용자 정보가 없습니다."));
 
 		var commentList = commentRepository.findAllByUserId(userId);
@@ -52,7 +53,7 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public Long saveOne(CommentPostReq req) {
-		var user = userRepository.findById(req.userId())
+		var user = userInfoRepository.findById(req.userId())
 				.orElseThrow(() -> new IllegalArgumentException("사용자 정보가 없습니다."));
 
 		var article = articleRepository.findById(req.articleId())

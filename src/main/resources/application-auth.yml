@@ -1,9 +1,9 @@
 # jwt
 
 jwt:
-  secret: ENC(K0FEs4AYN7SZ6+ldy4RNuKcwm1oM8ao3pNQ9FKcVMxqgDsw2xYzc1PXjXaJhIdklso7jGkY7diehJ6zlggtpLOTfmwLULykL)
-  access-token-expiration-period: ENC(XJ6E2XXCS1BjNx0aJs7TfA==)
-  refresh-token-expiration-period: ENC(Pz/0gEw/ieCPy7Fxee8+Sg==)
+  secret: ENC(7lSOjBk8gEf9+wINAK4GvFtE/pDw2udhqQgYroZn5OFRa6bo6SuLQRpWX/IeQ1fVlLGVGX68D6cP5MLdMuFBEg==)
+  access-token-expiration-period: ENC(sGzI9FY70plfsa/t76fU6Q==)
+  refresh-token-expiration-period: ENC(kb+V0OQpAg6AcHHufhJfZg==)
   header-name: Authorization
 
 # OAuth2
@@ -25,8 +25,8 @@ spring:
             user-name-attribute: response
         registration:
           kakao:
-            client-id: 42cd0b82637fba440447a496bd65a6a7
-            client-secret: z8WtbJl1HteZIYxRbFYO3Wh6DeC2iwYJ
+            client-id: ENC(3MwHkwgjtBieHPFqanQ5U4Zk5w/fG77LiOHZZpyGlAFm0oQnWPFhqLeBaWmCA3+Q)
+            client-secret: ENC(FIJJaSmCGWljggjwIWjNfOYccnK3XztRoivJFjSdsCBaWaibhd0IlzkpLfP4Uwie)
             client-authentication-method: client_secret_post
             redirect-uri: http://localhost:8080/login/oauth2/code/kakao
             authorization-grant-type: authorization_code
@@ -36,15 +36,15 @@ spring:
               - profile_image
               - account_email
           google:
-            client-id: 881393772769-hkulnspngdi9gip7vc06leo54nk9gq0l.apps.googleusercontent.com
-            client-secret: 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
+            client-id: ENC(wuwosfylqikgOlYgpXfGyFausO9NsR3lC79oHOtL5sCqy3UTSb3GPKzOasYn9CUgrhWCN4s4EMls4Lli749TcqFj4hc6Xt/3vW8AfFrAYBk+EPdTLRCXWg==)
+            client-secret: ENC(0A3kovclcjndKYHFHAVthsHl3H0yyBUemcgpBac0+OJ5/9guD8itrMjHT2uQ7p45)
             client-name: google
             scope:
               - profile
               - email
           naver:
-            client-id: EiNxVX1m0FwFXSF7H3yq
-            client-secret: UaNFqBWCyx
+            client-id: ENC(NutsLcumxAFCPv1izuYMkyIK8PokrHY7PODdhCG720w=)
+            client-secret: ENC(/7wlS6HtSEgcYYVXe8EBSVTRBkZupXxF)
             redirect-uri: http://localhost:8080/login/oauth2/code/naver
             authorization-grant-type: authorization_code
             client-name: naver

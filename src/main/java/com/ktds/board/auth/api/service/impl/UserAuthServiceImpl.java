@@ -5,6 +5,7 @@ import com.ktds.board.auth.api.dto.UserLoginRequest;
 import com.ktds.board.auth.api.dto.UserRegisterRequest;
 import com.ktds.board.auth.api.service.UserAuthService;
 import com.ktds.board.auth.db.entity.UserAuth;
+import com.ktds.board.auth.db.entity.enumtype.Role;
 import com.ktds.board.auth.db.repository.UserAuthRepository;
 import com.ktds.board.user.db.entity.UserInfo;
 import com.ktds.board.user.db.repository.UserInfoRepository;
@@ -22,10 +23,12 @@ public class UserAuthServiceImpl implements UserAuthService {
     @Override
     public Long saveOne(UserRegisterRequest req) {
         var userAuth = UserAuth.builder()
-                .id(Tsid.fast().toLong())
                 .email(req.email())
                 .password(bCryptPasswordEncoder.encode(req.password()))
+                .role(Role.valueOf(req.role()))
                 .build();
+
+        userAuth = userAuthRepository.save(userAuth);
 
         var userInfo = UserInfo.builder()
                 .id(userAuth.getId())
@@ -33,16 +36,21 @@ public class UserAuthServiceImpl implements UserAuthService {
                 .nickname(req.nickname())
                 .build();
 
-        userAuthRepository.save(userAuth);
         userInfoRepository.save(userInfo);
 
         return userInfo.getId();
     }
 
-    public boolean login(UserLoginRequest req) {
+    public UserAuth login(UserLoginRequest req) {
         var userAuth = userAuthRepository.findByEmail(req.email())
-                .orElseThrow(() -> new IllegalArgumentException("사용자 정보가 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("올바르지 않은 사용자 정보입니다. 아이디/비밀번호를 확인해주세요."));
 
-        return bCryptPasswordEncoder.matches(req.password(), userAuth.getPassword());
+        var match = bCryptPasswordEncoder.matches(req.password(), userAuth.getPassword());
+
+        if (!match) {
+            throw new IllegalArgumentException("올바르지 않은 사용자 정보입니다. 아이디/비밀번호를 확인해주세요.");
+        }
+
+        return userAuth;
     }
 }

@@ -1,14 +1,12 @@
 package com.ktds.board.board.db.repository.comment;
 
+import java.util.List;
+
 import com.ktds.board.board.db.entity.Comment;
 import com.ktds.board.board.db.entity.QComment;
-import com.ktds.board.user.db.entity.QUser;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.PersistenceUnit;
-import lombok.RequiredArgsConstructor;
 
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class CommentQueryDslRepositoryImpl implements CommentQuerydslRepository {

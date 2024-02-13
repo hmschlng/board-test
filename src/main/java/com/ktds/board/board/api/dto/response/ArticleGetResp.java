@@ -27,8 +27,8 @@ public class ArticleGetResp {
 	@Builder
 	public ArticleGetResp(Article article) {
 		this.articleId = article.getId();
-		this.userId = article.getUser().getId();
-		this.userNickname = article.getUser().getNickname();
+		this.userId = article.getUserInfo().getId();
+		this.userNickname = article.getUserInfo().getNickname();
 		this.title = article.getTitle();
 		this.content = article.getContent();
 		this.categoryId = article.getCategory().getId();

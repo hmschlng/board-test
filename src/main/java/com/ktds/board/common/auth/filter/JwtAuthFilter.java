@@ -34,6 +34,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
 	@Override
 	public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+		log.info("====InJwtAuthFilter====");
 		if (request.getMethod().equals(HttpMethod.OPTIONS.name())) {
 			chain.doFilter(request, response);
 		}
@@ -41,6 +42,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
 		if (Objects.isNull(accessToken)) {
 			log.debug("no valid JWT token found, uri: {}", request.getRequestURI());
+			chain.doFilter(request,response);
 		}
 
 		log.info("token = {}", accessToken);
@@ -80,7 +82,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 				}
 			}
 			default ->
-					log.info("no valid JWT token found, uri: {}", ((HttpServletRequest) request).getRequestURI());
+					log.info("no valid JWT token found, uri: {}", request.getRequestURI());
 		}
 
 		chain.doFilter(request, response);

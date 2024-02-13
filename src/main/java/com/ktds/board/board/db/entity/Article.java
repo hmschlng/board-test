@@ -1,15 +1,31 @@
 package com.ktds.board.board.db.entity;
 
-import com.ktds.board.common.audit.entity.ModifiedTimeEntity;
-import com.ktds.board.user.db.entity.User;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.ktds.board.common.audit.entity.ModifiedTimeEntity;
+import com.ktds.board.user.db.entity.UserInfo;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @DynamicInsert
 @Builder(toBuilder = true)
@@ -26,7 +42,7 @@ public class Article extends ModifiedTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private UserInfo userInfo;
 
     @Column(name = "title", nullable = false)
     private String title;

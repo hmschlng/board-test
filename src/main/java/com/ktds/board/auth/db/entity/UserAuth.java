@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class UserAuth extends BaseTimeEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column

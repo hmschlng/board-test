@@ -1,6 +1,5 @@
 package com.ktds.board.board.api.service.impl;
 
-import com.ktds.board.board.api.dto.request.ArticleListGetReq;
 import com.ktds.board.board.api.dto.request.ArticlePostReq;
 import com.ktds.board.board.api.dto.request.ArticlePutReq;
 import com.ktds.board.board.api.dto.response.ArticleGetResp;
@@ -9,8 +8,9 @@ import com.ktds.board.board.db.entity.Article;
 import com.ktds.board.board.db.entity.Category;
 import com.ktds.board.board.db.repository.ArticleRepository;
 import com.ktds.board.board.db.repository.CategoryRepository;
-import com.ktds.board.user.db.entity.User;
-import com.ktds.board.user.db.repository.UserRepository;
+import com.ktds.board.user.db.entity.UserInfo;
+import com.ktds.board.user.db.repository.UserInfoRepository;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,13 +22,13 @@ import java.util.List;
 public class ArticleServiceImpl implements ArticleService {
 
 	private final ArticleRepository articleRepository;
-	private final UserRepository userRepository;
+	private final UserInfoRepository userInfoRepository;
 	private final CategoryRepository categoryRepository;
 
 	@Override
-	public List<ArticleGetResp> getAll(ArticleListGetReq req) {
+	public List<ArticleGetResp> getAll(Long id) {
 		// 카테고리 아이디 기준으로 게시글 조회
-		var articleList = articleRepository.findAllByCategoryId(req.categoryId())
+		var articleList = articleRepository.findAllByCategoryId(id)
 			.orElseThrow(() -> new IllegalArgumentException("잘못된 유형의 카테고리입니다."));
 
 		// 없을 경우 예외 테스트 필요
@@ -76,11 +76,11 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public Long saveOne(ArticlePostReq req) {
-		var user = checkAndGetUser(req.userId());
+		var userInfo = checkAndGetUser(req.userId());
 		var category = checkAndGetCategory(req.categoryId());
 
 		return articleRepository.save(Article.builder()
-				.user(user)
+				.userInfo(userInfo)
 				.title(req.title())
 				.content(req.content())
 				.category(category)
@@ -114,8 +114,8 @@ public class ArticleServiceImpl implements ArticleService {
 		return articleId;
 	}
 
-	private User checkAndGetUser(Long id) {
-		return userRepository.findById(id)
+	private UserInfo checkAndGetUser(Long id) {
+		return userInfoRepository.findById(id)
 			.orElseThrow(() -> new IllegalArgumentException("사용자 정보가 없습니다."));
 	}
 

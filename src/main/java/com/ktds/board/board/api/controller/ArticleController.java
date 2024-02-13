@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ktds.board.board.api.dto.request.ArticleListGetReq;
 import com.ktds.board.board.api.dto.request.ArticlePostReq;
 import com.ktds.board.board.api.dto.request.ArticlePutReq;
 import com.ktds.board.board.api.service.ArticleService;
@@ -27,8 +26,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
-
+@Slf4j
 @Tag(name = "게시글 관리 API", description = "게시글을 조회, 추가, 수정, 삭제하는 API입니다.")
 @Validated
 @RequiredArgsConstructor
@@ -41,10 +41,10 @@ public class ArticleController {
     // 게시글 전체조회
     @ApiDocumentResponse
     @Operation(summary = "getArticleList", description="게시글 전체 조회")
-    @GetMapping
+    @GetMapping("/{categoryId}")
     public ResponseEntity<? extends BaseResponseBody> getArticleList(
-            ArticleListGetReq req) {
-        var articleList = articleService.getAll(req);
+            @PathVariable("categoryId") Long categoryId) {
+        var articleList = articleService.getAll(categoryId);
 
         return ResponseEntity
                 .ok()
@@ -91,6 +91,7 @@ public class ArticleController {
         var location = URI.create(request.getRequestURI() + "/" + articleId);
         var successMessage = "게시글을 성공적으로 생성했습니다. (userId=" + req.userId() + ", articleId=" + articleId + ")";
 
+        log.info(successMessage);
         return ResponseEntity
             .created(location)
             .body(new BaseResponseBody<>(HttpStatus.CREATED, successMessage));

@@ -1,7 +1,8 @@
 package com.ktds.board.board.db.entity;
 
 import com.ktds.board.common.audit.entity.ModifiedTimeEntity;
-import com.ktds.board.user.db.entity.User;
+import com.ktds.board.user.db.entity.UserInfo;
+
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -35,7 +36,7 @@ public class Comment extends ModifiedTimeEntity {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private UserInfo user;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "parent_id")
