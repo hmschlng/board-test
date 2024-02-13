@@ -46,9 +46,9 @@ dependencies {
 	// mvc, validation
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
-
 	// security & jwt
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 //	implementation 'org.springframework.boot:spring-boot-starter-security:3.0.13'
 	testImplementation 'org.springframework.security:spring-security-test'
 	implementation group: 'jakarta.xml.bind', name: 'jakarta.xml.bind-api', version: '4.0.0'

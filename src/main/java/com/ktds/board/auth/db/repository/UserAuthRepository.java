@@ -13,4 +13,5 @@ public interface UserAuthRepository extends JpaRepository<UserAuth, Long> {
     Optional<UserAuth> findByGoogleOAuthId(String googleOAuthId);
     Optional<UserAuth> findByNaverOAuthId(String naverOAuthId);
 
+    boolean existsByEmail(String email);
 }

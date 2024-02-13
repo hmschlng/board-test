@@ -1,7 +1,8 @@
 package com.ktds.board.auth.api.controller;
 
-import com.ktds.board.auth.api.dto.UserLoginRequest;
-import com.ktds.board.auth.api.dto.UserRegisterRequest;
+import com.ktds.board.auth.api.dto.request.UserLoginReq;
+import com.ktds.board.auth.api.dto.request.UserRegisterReq;
+import com.ktds.board.auth.api.dto.request.VerifyEmailReq;
 import com.ktds.board.auth.api.service.UserAuthService;
 import com.ktds.board.common.auth.enumtype.TokenType;
 import com.ktds.board.common.auth.util.JwtTokenProvider;
@@ -32,7 +33,7 @@ public class AuthController {
 
 
     @PostMapping("/signup")
-    public ResponseEntity<? extends BaseResponseBody> signup(@RequestBody UserRegisterRequest req) {
+    public ResponseEntity<? extends BaseResponseBody> signup(@RequestBody UserRegisterReq req) {
 
         log.info("진입!");
         userAuthService.saveOne(req);
@@ -43,7 +44,7 @@ public class AuthController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<Object> signin(@RequestBody UserLoginRequest req,
+    public ResponseEntity<Object> signin(@RequestBody UserLoginReq req,
         HttpServletResponse res) {
         var userAuth = userAuthService.login(req);
 
@@ -64,6 +65,16 @@ public class AuthController {
 
         return ResponseEntity.ok().body(new BaseResponseBody<>(HttpStatus.OK, userInfo));
     }
+
+    @PostMapping("/verify")
+    public ResponseEntity<?> verifyEmailId(@RequestBody VerifyEmailReq req) throws Exception {
+        var code = userAuthService.checkEmailId(req);
+        return ResponseEntity
+                .ok()
+                .body(new BaseResponseBody<>(HttpStatus.OK, code));
+    }
+
+
 
 //    @GetMapping("/data")
 //    @ApiDocumentResponse

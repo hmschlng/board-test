@@ -1,6 +1,6 @@
-package com.ktds.board.auth.api.dto;
+package com.ktds.board.auth.api.dto.request;
 
-public record UserRegisterRequest(
+public record UserRegisterReq(
         String email,
         String password,
         String nickname,
