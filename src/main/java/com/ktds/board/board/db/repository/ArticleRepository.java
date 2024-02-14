@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import com.ktds.board.board.db.entity.Article;
+
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,15 +15,15 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 	// Optional<Article> getArticle(Long id);
 	// Optional<List<Article>> getAllArticles();
 	// void deleteArticle(Long id);
-	default Optional<List<Article>> findAllByCategoryId(Long categoryId) {
-		return this.findArticlesByCategory_IdOrderByCreatedAtDesc(categoryId);
+	default List<Article> findAllByCategoryId(Long categoryId, Pageable pageable) {
+		return this.findArticlesByCategory_IdOrderByCreatedAtDesc(categoryId, pageable);
 	}
 
-	default Optional<List<Article>> findAllByUserId(Long userId) {
+	default List<Article> findAllByUserId(Long userId) {
 		return this.findArticlesByUserInfo_IdOrderByCreatedAtDesc(userId);
 	}
 
-	Optional<List<Article>> findArticlesByCategory_IdOrderByCreatedAtDesc(Long categoryId);
+	List<Article> findArticlesByCategory_IdOrderByCreatedAtDesc(Long categoryId, Pageable pageable);
 
-	Optional<List<Article>> findArticlesByUserInfo_IdOrderByCreatedAtDesc(Long userId);
+	List<Article> findArticlesByUserInfo_IdOrderByCreatedAtDesc(Long userId);
 }

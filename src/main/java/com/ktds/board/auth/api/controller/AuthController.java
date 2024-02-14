@@ -1,5 +1,8 @@
 package com.ktds.board.auth.api.controller;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 import com.ktds.board.auth.api.dto.request.UserLoginReq;
 import com.ktds.board.auth.api.dto.request.UserRegisterReq;
 import com.ktds.board.auth.api.dto.request.VerifyEmailReq;
@@ -12,6 +15,7 @@ import com.ktds.board.user.api.service.UserInfoService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -51,7 +55,7 @@ public class AuthController {
         var token = jwtTokenProvider.generateToken(userAuth.getId(), userAuth.getRole().getKey());
         res.setHeader(TokenType.ACCESS_TOKEN.getKey(), "Bearer-" + token.getAccessToken());
 
-        Cookie cookie = new Cookie("refreshToken", token.getRefreshToken());
+        Cookie cookie = new Cookie(TokenType.REFRESH_TOKEN.getKey(), token.getRefreshToken());
         cookie.setPath("/"); // Cookie의 유효 경로 설정 (루트 경로로 설정하면 전체 사이트에서 접근 가능)
         cookie.setMaxAge(jwtTokenProvider.getRefreshTokenLifetime().intValue()); // Cookie의 유효 기간 설정 (예: 30일)
         cookie.setHttpOnly(true); // JavaScript에서 접근할 수 없도록 설정
@@ -63,17 +67,33 @@ public class AuthController {
             .id(userAuth.getId())
             .build());
 
+        userInfo.setToken("Bearer-" + token.getAccessToken());
+
         return ResponseEntity.ok().body(new BaseResponseBody<>(HttpStatus.OK, userInfo));
     }
 
     @PostMapping("/verify")
-    public ResponseEntity<?> verifyEmailId(@RequestBody VerifyEmailReq req) throws Exception {
+    public ResponseEntity<?extends BaseResponseBody> verifyEmailId(@RequestBody VerifyEmailReq req) throws Exception {
         var code = userAuthService.checkEmailId(req);
         return ResponseEntity
                 .ok()
                 .body(new BaseResponseBody<>(HttpStatus.OK, code));
     }
 
+    @GetMapping("/signout")
+    public ResponseEntity<? extends BaseResponseBody> signout(
+        HttpServletResponse res
+    ) {
+        // 리프레시토큰이 있으면 초기화
+        var cookie = new Cookie(TokenType.REFRESH_TOKEN.getKey(), null); // choiceCookieName(쿠키 이름)에 대한 값을 null로 지정
+        cookie.setMaxAge(0); // 유효시간을 0으로 설정
+        cookie.setHttpOnly(true);
+        res.addCookie(cookie); // 응답 헤더에 추가해서 없어지도록 함
+
+        return ResponseEntity
+            .ok()
+            .body(new BaseResponseBody<>(HttpStatus.OK, "Success"));
+    }
 
 
 //    @GetMapping("/data")

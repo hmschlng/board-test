@@ -12,6 +12,8 @@ import com.ktds.board.user.db.entity.UserInfo;
 import com.ktds.board.user.db.repository.UserInfoRepository;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,10 +28,10 @@ public class ArticleServiceImpl implements ArticleService {
 	private final CategoryRepository categoryRepository;
 
 	@Override
-	public List<ArticleGetResp> getAll(Long id) {
+	public List<ArticleGetResp> getAll(Long id, Pageable pageable) {
 		// 카테고리 아이디 기준으로 게시글 조회
-		var articleList = articleRepository.findAllByCategoryId(id)
-			.orElseThrow(() -> new IllegalArgumentException("잘못된 유형의 카테고리입니다."));
+		var articleList = articleRepository.findAllByCategoryId(id, pageable)
+			.stream().toList();
 
 		// 없을 경우 예외 테스트 필요
 
@@ -44,8 +46,7 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public List<ArticleGetResp> getAllByUserId(Long id) {
 
-		var articleList = articleRepository.findAllByUserId(id)
-			.orElseThrow(() -> new IllegalArgumentException("사용자 정보가 없습니다."));
+		var articleList = articleRepository.findAllByUserId(id).stream().toList();
 
 		return articleList.stream().map(article ->
 			ArticleGetResp.builder()

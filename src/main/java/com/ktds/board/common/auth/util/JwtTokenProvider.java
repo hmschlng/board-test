@@ -4,6 +4,7 @@ import com.ktds.board.auth.api.service.impl.RedisService;
 import com.ktds.board.common.auth.enumtype.JwtTokenStatusCode;
 import com.ktds.board.common.auth.enumtype.TokenType;
 import io.jsonwebtoken.Claims;
+import jakarta.servlet.http.Cookie;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 import java.util.Map;
+import java.util.Optional;
 
 import static com.ktds.board.common.auth.enumtype.TokenType.ACCESS_TOKEN;
 import static com.ktds.board.common.auth.enumtype.TokenType.REFRESH_TOKEN;
@@ -101,4 +103,5 @@ public class JwtTokenProvider {
 	public Long getRefreshTokenLifetime() {
 		return refreshTokenLifetime;
 	}
+
 }

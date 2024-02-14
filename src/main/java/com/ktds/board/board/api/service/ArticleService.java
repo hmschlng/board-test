@@ -6,8 +6,10 @@ import com.ktds.board.board.api.dto.response.ArticleGetResp;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
+
 public interface ArticleService {
-	List<ArticleGetResp> getAll(Long id);
+	List<ArticleGetResp> getAll(Long id, Pageable pageable);
 
 	List<ArticleGetResp> getAllByUserId(Long id);
 

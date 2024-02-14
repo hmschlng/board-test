@@ -2,11 +2,13 @@ package com.ktds.board.board.api.controller;
 
 import java.net.URI;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -43,8 +45,9 @@ public class ArticleController {
     @Operation(summary = "getArticleList", description="게시글 전체 조회")
     @GetMapping("/{categoryId}")
     public ResponseEntity<? extends BaseResponseBody> getArticleList(
+            Pageable pageable,
             @PathVariable("categoryId") Long categoryId) {
-        var articleList = articleService.getAll(categoryId);
+        var articleList = articleService.getAll(categoryId, pageable);
 
         return ResponseEntity
                 .ok()

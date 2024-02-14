@@ -38,6 +38,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 		if (request.getMethod().equals(HttpMethod.OPTIONS.name())) {
 			chain.doFilter(request, response);
 		}
+
 		var accessToken = jwtTokenProvider.resolveToken(request.getHeader(ACCESS_TOKEN.getKey()));
 
 		if (Objects.isNull(accessToken)) {

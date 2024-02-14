@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum TokenType {
-	ACCESS_TOKEN("Authorization"), REFRESH_TOKEN("refreshToken");
+	ACCESS_TOKEN("Authentication"), REFRESH_TOKEN("refreshToken");
 
 	private String key;
 

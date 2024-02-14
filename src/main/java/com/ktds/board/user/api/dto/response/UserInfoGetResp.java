@@ -14,6 +14,7 @@ public class UserInfoGetResp {
     private String nickname;
     private String profileImg;
     private LocalDateTime createdAt;
+    private String token;
 
     @Builder
     public UserInfoGetResp(UserInfo userInfo) {
@@ -24,4 +25,7 @@ public class UserInfoGetResp {
         this.createdAt = userInfo.getCreatedAt();
     }
 
+    public void setToken(String token) {
+        this.token = token;
+    }
 }

@@ -27,11 +27,11 @@ public class CustomCorsConfig {
 				"access-control-allow-headers",
 				"access-control-allow-methods",
 				"access-control-allow-origin",
-				"authorization",
+				"authentication",
 				"content-type",
 				"samesite"));
 		corsConfig.setAllowCredentials(true);
-		corsConfig.setExposedHeaders(List.of("Authorization"));
+		corsConfig.setExposedHeaders(List.of("Authentication"));
 
 		var source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", corsConfig);
